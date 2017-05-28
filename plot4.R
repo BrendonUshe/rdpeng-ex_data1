@@ -1,29 +1,24 @@
-#using mydata1 which is filtered 2 day data see main.R for code
-par(new=F)
-par(mfrow=c(2,2))
-plot(as.numeric(mydata1$Global_active_power),main ="Global Active Power",type="l", ylab="Global Active Power(kilowatts)",xlab="",axes=FALSE)
-axis(1, at = c(0,1500,2900),labels = c("Thu","Fri","Sat"))
-axis(2,at=c(0,2,4,6))
-box(lty = 1, col = 'black')
-#voltage
-plot(as.numeric(mydata1$Voltage),main="voltage",type="l", ylab="voltage",xlab="",axes=FALSE)
-axis(1, at = c(0,1500,2900),labels = c("Thu","Fri","Sat"))
-axis(2,at=c(234,238,240,242),labels=c("234","238","240","242"))
-box(lty = 1, col = 'black')
-#plot3
-plot(1:nrow(mydata1),as.numeric(mydata1$Sub_metering_1),main="Energy metering", ylab="Energy sub metering",xlab="",type="l",col="black",axes=FALSE)
-par(new=T)
-plot(as.numeric(mydata1$Sub_metering_2),col="red",type="l",axes=FALSE,ylim=c(0,40),xlab="",ylab="")
-par(new=T)
-plot(as.numeric(mydata1$Sub_metering_3),col="blue",type="l",axes=FALSE,ylim=c(0,40),xlab="",ylab="")
-axis(1, at = c(0,1500,2900),labels = c("Thu","Fri","Sat"))
-axis(2, at = c(0,10,20,30),labels = c("0","10","20","30"))
-legend("topright",legend=c("sub-metering1","sub-metering2","sub-metering3"),col=c("black","red","blue"),lty=c(1,1,1),lwd=2)
-box(lty = 1, col = 'black')
-par(new=F)
-plot(as.numeric(mydata1$Global_reactive_power),main ="Global Reactive Power",type="l", ylab="",xlab="",axes=FALSE)
-axis(1, at = c(0,1500,2900),labels = c("Thu","Fri","Sat"))
-axis(2,at=c(0.1,0.2,0.3,0.4),c("0.1","0.2","0.3","0.4"))
-box(lty = 1, col = 'black')
-dev.copy(png,"plot4.png")
+## Plot 4
+par(mfrow=c(2,2), mar=c(4,4,2,1), oma=c(0,0,2,0))
+with(Plot1, {
+    plot(Global_active_power~dateTime, type="l", 
+         ylab="Global Active Power (kilowatts)", xlab="")
+    plot(Voltage~dateTime, type="l", 
+         ylab="Voltage (volt)", xlab="")
+    plot(Sub_metering_1~dateTime, type="l", 
+         ylab="Global Active Power (kilowatts)", xlab="")
+    lines(Sub_metering_2~dateTime,col='Red')
+    lines(Sub_metering_3~dateTime,col='Blue')
+    legend("topright", col=c("black", "red", "blue"), lty=1, lwd=2, bty="n",
+           legend=c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
+    plot(Global_reactive_power~dateTime, type="l", 
+         ylab="Global Rective Power (kilowatts)",xlab="")
+  })
+
+## Saving Plot 4 to device
+
+dev.copy(png, file="plot4.png", height=480, width=480)
+
 dev.off()
+
+##End Plot 4
